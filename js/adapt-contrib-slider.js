@@ -366,27 +366,29 @@ define([
             }, this);
         },
 
-        showScale: function () {
+        showScale: function() {
             var $markers = this.$('.slider-markers').empty();
-            if (this.model.get('_showScale') === false) {
-                $markers.eq(0).css({display: 'none'});
-                this.$('.slider-scale-numbers').eq(0).css(
-                    this.model.get('_showScaleIndicator') ? {visibility: 'hidden'} : {display: 'none'}
-                );
-            } else {
-                var $scaler = this.$('.slider-scaler');
-                for (var i = 0, count = this.model.get('_items').length; i < count; i++) {
-                    $markers.append("<div class='slider-line component-item-color'>");
-                    $markers.find('.slider-line').eq(i).css({left: this.mapIndexToPixels(i, $scaler) + 'px'});
-                }
-                var scaleWidth = $scaler.width();
-                var $numbers = this.$('.slider-scale-number');
-                for (var j = 0, len = this.model.get('_items').length; j < len; j++) {
-                    var $number = $numbers.eq(j);
-                    var newLeft = Math.round($number.data('normalisedPosition') * scaleWidth);
-                    $number.css({left: newLeft});
-                }
+            if (!this.model.get('_showScaleIndicator')) {
+                this.$('.slider-scale-numbers').eq(0).css('display', 'none');
+                $markers.eq(0).css({ display: 'none' });
             }
+            if (!this.model.get('_showScale')) {
+                this.$('.slider-scale-number').css('display', 'none');
+            }
+
+            var $scaler = this.$('.slider-scaler');
+            for (var i = 0, count = this.model.get('_items').length; i < count; i++) {
+                $markers.append("<div class='slider-line component-item-color'>");
+                $markers.find('.slider-line').eq(i).css({ left: this.mapIndexToPixels(i, $scaler) + 'px' });
+            }
+            var scaleWidth = $scaler.width();
+            var $numbers = this.$('.slider-scale-number');
+            for (var j = 0, len = this.model.get('_items').length; j < len; j++) {
+                var $number = $numbers.eq(j);
+                var newLeft = Math.round($number.data('normalisedPosition') * scaleWidth);
+                $number.css({ left: newLeft });
+            }
+
         },
 
         //Labels are enabled in slider.hbs. Here we manage their containing div.
